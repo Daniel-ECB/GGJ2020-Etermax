@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class MotherShip : MonoBehaviour, IAttackable
 {
+    public int health;
+    public int damage;
+    public GameObject target;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,12 +23,14 @@ public class MotherShip : MonoBehaviour, IAttackable
 
     public void Kill()
     {
-        throw new System.NotImplementedException();
+        Destroy(gameObject);
     }
 
     public void TakeDamage(int damage)
     {
-        throw new System.NotImplementedException();
+        this.health -= damage;
+        if (this.health <= 0)
+            Kill();
     }
 
     

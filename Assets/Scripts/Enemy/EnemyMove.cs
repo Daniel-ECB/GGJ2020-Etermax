@@ -9,25 +9,30 @@ public class EnemyMove : MonoBehaviour {
     public bool moveUp = true;
     public bool moveDown = true;
 
+
     [Header("References")]
     public Transform spawnBullet = default;
 
     [Header("Assets")]
     public Bullet prefabBullet = default;
 
-    private Pooling<Bullet> pooling;
+    public static Pooling<Bullet> pooling;
 
     void Start() {
         pooling = new Pooling<Bullet>(20, prefabBullet, new GameObject("PoolObjects Bullet").transform, false);
+
     }
 
     void Update() {
         MoveUpDown();
+        ShootBullet();
+
     }
 
     private void ShootBullet() {
         Bullet bullet = pooling.Get();
         bullet.transform.position = spawnBullet.position;
+        bullet.transform.rotation=spawnBullet.rotation;
     }
 
     private void MoveUpDown() {

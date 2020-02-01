@@ -97,7 +97,7 @@ MonoBehaviour:
   speed: 3
   moveUp: 1
   moveDown: 1
-  spawnBullet: {fileID: 0}
+  spawnBullet: {fileID: 7178338269476024474}
   prefabBullet: {fileID: 8116158708309492802, guid: eacc1a10032fc854b9dfe28f31116806,
     type: 3}
 --- !u!1 &2288479206371874928

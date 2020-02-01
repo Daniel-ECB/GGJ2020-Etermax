@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Spot
+  - ShieldUnit
   layers:
   - Default
   - TransparentFX
@@ -39,6 +40,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 4223339413
+    locked: 0
+  - name: Bullets
+    uniqueID: 380435307
+    locked: 0
+  - name: Players
+    uniqueID: 1884055043
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

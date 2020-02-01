@@ -4,23 +4,22 @@ using UnityEngine;
 
 public class HealthBar : MonoBehaviour
 {
-    private float maxHits = 100.0f;
-    private float currentHits = 100.0f;
+    public float maxHits;
+    private float currentHits;
 
-    // Start is called before the first frame update
     void Start()
     {
-        
+        // The value of maxHits is set in the Awake method of ShieldUnit
+        currentHits = maxHits;
     }
 
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// Reduces the content of the HealthBar.
+    /// </summary>
+    /// <param name="_amount">Amount that will be reduced from the bar.</param>
+    public void ReduceBar(float _amount)
     {
-        if (Input.GetMouseButtonDown(0) == true) {
-            if (currentHits>0)
-            currentHits -= 5.0f;
-            transform.localScale = new Vector3(currentHits / maxHits, 1.0f, 1.0f);
-        
-        }
+        currentHits -= _amount;
+        transform.localScale = new Vector3(currentHits / maxHits, 1.0f, 1.0f);
     }
 }

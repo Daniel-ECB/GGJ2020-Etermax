@@ -14,12 +14,10 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private string commentLose = default;
 
     [Header("References")]
-    [SerializeField] private GameObject mainMenu = default;
     [SerializeField] private Button buttonPlay = default;
     [SerializeField] private Button buttonCredits = default;
     [SerializeField] private Button buttonBack = default;
     [Space]
-    [SerializeField] private GameObject endMenu = default;
     [SerializeField] private TextMeshProUGUI textResult = default;
     [SerializeField] private TextMeshProUGUI textComment = default;
     [SerializeField] private Button buttonRestart = default;
@@ -79,6 +77,5 @@ public class GameManager : MonoBehaviour {
     public void GameOver(bool win) {
         textResult.text = win ? titleWin : titleLose;
         textComment.text = win ? commentWin : commentLose;
-        endMenu.SetActive(true);
     }
 }

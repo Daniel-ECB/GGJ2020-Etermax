@@ -2,3 +2,4 @@
 -agrandar la nebulosa
 -arreglar bldcs esteticas
 -agregar powerup supershield
+-agregar la musica

@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour {
     private void Awake() {
         instance = this;
 
-        buttonPlay.onClick.AddListener(OnClickPlay);
+        return;
         buttonCredits.onClick.AddListener(OnClickCredits);
         buttonBack.onClick.AddListener(OnClickBack);
 

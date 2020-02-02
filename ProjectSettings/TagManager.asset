@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Spot
   - ShieldUnit
+  - SuperShield
   layers:
   - Default
   - TransparentFX

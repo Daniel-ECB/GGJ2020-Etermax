@@ -1,18 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class ShieldUnit : MonoBehaviour, IAttackable
-{
+public class ShieldUnit : MonoBehaviour, IAttackable {
     #region Fields
 
-    [SerializeField] private GameObject superShieldObject;
+    [SerializeField] private GameObject superShieldObject = default;
+    [SerializeField] private GameObject myCanvas = default;
     private bool hasSuperShield = false;
 
     [Header("Health Support")]
     [SerializeField] private HealthBar healthBar;
     [SerializeField] private int maxHealth = 1000;
-    private int currentHealth;
 
     private bool isDeath = false;
     private Collider2D shieldCollider;
@@ -24,7 +21,7 @@ public class ShieldUnit : MonoBehaviour, IAttackable
     /// <summary>
     /// Gets the current health of the shield
     /// </summary>
-    public int ShieldHealth { get { return currentHealth; } }
+    public int ShieldHealth { get; private set; }
 
     #endregion
 
@@ -33,27 +30,30 @@ public class ShieldUnit : MonoBehaviour, IAttackable
     /// <summary>
     /// Awake is called when the script is first loaded.
     /// </summary>
-    private void Awake()
-    {
-        currentHealth = maxHealth;
+    private void Awake() {
+        ShieldHealth = maxHealth;
         healthBar.maxHits = maxHealth;
 
         shieldCollider = GetComponent<Collider2D>();
     }
 
+    private void Start() {
+        GameManager.instance.onStartGame += OnStartGame;
+    }
+
+    private void OnStartGame() => myCanvas.SetActive(true);
+
     /// <summary>
     /// Kills the Shield.
     /// </summary>
-    public void Kill()
-    {
+    public void Kill() {
         // Prevents the shield from being destroyed
         if (hasSuperShield)
             return;
 
         // Instantly killing the shield
-        if (currentHealth > 0)
-        {
-            currentHealth = 0;
+        if (ShieldHealth > 0) {
+            ShieldHealth = 0;
             healthBar.SetHealthBarContent(0);
         }
 
@@ -66,67 +66,59 @@ public class ShieldUnit : MonoBehaviour, IAttackable
     /// Makes the shield take damage.
     /// </summary>
     /// <param name="damage">Damage dealt to the shield.</param>
-    public void TakeDamage(int damage)
-    {
+    public void TakeDamage(int damage) {
         // There's no point in damaging a death shield or a protected one
         if (isDeath || hasSuperShield)
             return;
 
-        currentHealth = Mathf.Max(0, currentHealth - damage);
+        ShieldHealth = Mathf.Max(0, ShieldHealth - damage);
         healthBar.ReduceBar(damage);
 
-        if (currentHealth <= 0)
+        if (ShieldHealth <= 0)
             Kill();
+    }
+
+    private void OnMouseDown() {
+        //Debug.Log("The player has clicked on " + name);
+        if (isDeath)
+            return;
+
+        if (ShieldManager.Instance.canHeal) {
+            RecoverHealth(ShieldManager.Instance.healAmount);
+        } else if (ShieldManager.Instance.activateSuperShield) {
+            ActivateSuperShield();
+        }
     }
 
     /// <summary>
     /// Recovers the health of the ShieldUnit by a certain amount.
     /// </summary>
     /// <param name="_amount">Amount to heal.</param>
-    public void RecoverHealth(int _amount)
-    {
-        currentHealth = Mathf.Min(currentHealth + ShieldManager.Instance.healAmount, maxHealth);
-        healthBar.SetHealthBarContent(currentHealth);
+    public void RecoverHealth(int _amount) {
+        ShieldHealth = Mathf.Min(ShieldHealth + ShieldManager.Instance.healAmount, maxHealth);
+        healthBar.SetHealthBarContent(ShieldHealth);
     }
 
     /// <summary>
     /// Creates a SuperShield on the normal shield.
     /// </summary>
-    private void ActivateSuperShield()
-    {
+    private void ActivateSuperShield() {
         // Only one Super Shield at once
         ShieldManager.Instance.canHeal = true;
         ShieldManager.Instance.activateSuperShield = false;
 
         // Creating and destroying super shield
         superShieldObject.SetActive(true);
-        Invoke("DeactivateSuperShield", ShieldManager.SUPER_SHIELD_LIFETIME);
+        Invoke("DeactivateSuperShield", ShieldManager.Instance.superShieldLifeTime);
         hasSuperShield = true;
     }
 
     /// <summary>
     /// Deactivates the Super Shield
     /// </summary>
-    private void DeactivateSuperShield()
-    {
+    private void DeactivateSuperShield() {
         superShieldObject.SetActive(false);
         hasSuperShield = false;
-    }
-
-    private void OnMouseDown()
-    {
-        //Debug.Log("The player has clicked on " + name);
-        if (isDeath)
-            return;
-
-        if (ShieldManager.Instance.canHeal)
-        {
-            RecoverHealth(ShieldManager.Instance.healAmount);
-        }
-        else if (ShieldManager.Instance.activateSuperShield)
-        {
-            ActivateSuperShield();
-        }
     }
 
     #endregion

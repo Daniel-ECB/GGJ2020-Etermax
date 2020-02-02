@@ -843,6 +843,17 @@ PrefabInstance:
       propertyPath: animator
       value: 
       objectReference: {fileID: 1200995087562215347}
+    - target: {fileID: 6052687973202885248, guid: a972469673b77ff42812e7488ecc0ae4,
+        type: 3}
+      propertyPath: delayPowerUp
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6052687973202885248, guid: a972469673b77ff42812e7488ecc0ae4,
+        type: 3}
+      propertyPath: prefabPowerUp
+      value: 
+      objectReference: {fileID: 2139505906522811173, guid: 829f5c0f0bda2b44b8e6bbdc7c44aacb,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a972469673b77ff42812e7488ecc0ae4, type: 3}
 --- !u!1001 &3962918311959112378

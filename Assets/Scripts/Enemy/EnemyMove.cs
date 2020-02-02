@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class EnemyMove : MonoBehaviour {
+public class EnemyMove : MonoBehaviour, IAttackable {
 
     [Header("Settings")]
+    public int lives = 3;
     public float minDelay;
     public float maxDelay;
     public int bulletsPerSecond = default;
@@ -105,4 +106,15 @@ public class EnemyMove : MonoBehaviour {
         t = 0;
         state = State.Moving;
     }
+
+    public void TakeDamage(int damage) {
+        lives -= 1;
+
+        if (lives <= 0) {
+            Kill();
+            GameManager.instance.GameOver(true);
+        }
+    }
+
+    public void Kill() => gameObject.SetActive(false);
 }

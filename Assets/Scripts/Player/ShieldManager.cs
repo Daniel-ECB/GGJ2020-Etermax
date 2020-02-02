@@ -1,18 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ShieldManager : MonoBehaviour
-{
+public class ShieldManager : MonoBehaviour {
     #region Fields
 
     private static ShieldManager instance;
 
+    [Header("Settings")]
+    public float superShieldLifeTime = 10f;
+
+    [Header("References")]
     [Tooltip("Amount of health a shield will recover with a click.")] public int healAmount = 10;
     public bool canHeal = true;
 
     public bool activateSuperShield = false;
-    public const float SUPER_SHIELD_LIFETIME = 10f;
+
 
     [Header("References")]
     public List<ShieldUnit> shields;
@@ -24,8 +26,7 @@ public class ShieldManager : MonoBehaviour
     /// <summary>
     /// Gets and (private) sets the ShieldManager instance.
     /// </summary>
-    public static ShieldManager Instance
-    {
+    public static ShieldManager Instance {
         get { return instance; }
         private set { instance = value; }
     }
@@ -37,10 +38,9 @@ public class ShieldManager : MonoBehaviour
     /// <summary>
     /// Awake is called when the script is first loaded.
     /// </summary>
-    void Awake()
-    {
+    void Awake() {
         // Simple Singleton
-        if (Instance == null)        
+        if (Instance == null)
             Instance = this;
         else
             Destroy(gameObject);
@@ -50,13 +50,11 @@ public class ShieldManager : MonoBehaviour
     /// Removes a ShielUnit from the reference List.
     /// </summary>
     /// <param name="_shieldUnit">The ShieldUnit to be removed.</param>
-    public void RemoveShield(ShieldUnit _shieldUnit)
-    {
+    public void RemoveShield(ShieldUnit _shieldUnit) {
         shields.Remove(_shieldUnit);
 
-        if (shields.Count <= 0)
-        {
-            Debug.Log("All shields have been destroyed");
+        if (shields.Count <= 0) {
+            GameManager.instance.GameOver(false);
         }
     }
 

@@ -7,11 +7,16 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
 
     [Header("Settings")]
+    [SerializeField] private float delayPowerUp = default;
+    [Space]
     [SerializeField] private string titleWin = default;
     [SerializeField] private string commentWin = default;
     [Space]
     [SerializeField] private string titleLose = default;
     [SerializeField] private string commentLose = default;
+
+    [Header("Assets")]
+    [SerializeField] private GameObject prefabPowerUp = default;
 
     [Header("References")]
     [SerializeField] private Button buttonPlay = default;
@@ -27,8 +32,12 @@ public class GameManager : MonoBehaviour {
     private enum State { MainMenu, Credits, InGame, EndGame }
     private State state = State.MainMenu;
 
+    private float nextPowerUp;
+
     public Action onStartGame;
     public Action onGameOver;
+
+    public Action onPowerUp;
 
     private readonly int CONST_PLAY = Animator.StringToHash("Play");
     private readonly int CONST_CREDITS = Animator.StringToHash("Credits");
@@ -45,11 +54,21 @@ public class GameManager : MonoBehaviour {
         buttonRestart.onClick.AddListener(OnClickRestart);
     }
 
+    private void Update() {
+        if (state == State.InGame && Time.time >= nextPowerUp) {
+            nextPowerUp = Time.time + delayPowerUp;
+            Instantiate(prefabPowerUp);
+            onPowerUp?.Invoke();
+        }
+    }
+
     private void OnClickPlay() {
         if (state != State.MainMenu) return;
         state = State.InGame;
 
         onStartGame?.Invoke();
+        nextPowerUp = Time.time + delayPowerUp;
+
         animator.SetTrigger(CONST_PLAY);
     }
 

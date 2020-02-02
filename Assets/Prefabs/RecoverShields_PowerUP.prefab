@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2139505906522811170}
   - component: {fileID: 2139505906522811171}
   - component: {fileID: 1245791963659370619}
+  - component: {fileID: 8983185782498592965}
   m_Layer: 0
   m_Name: RecoverShields_PowerUP
   m_TagString: Untagged
@@ -71,12 +72,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: dbb2e258a5943ae41ba05eb7f781a26d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fcb4a966e119ac54b8e69698f100125b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.16, y: 0.16}
+  m_Size: {x: 4, y: 4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -108,6 +109,23 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.04, y: 0.05}
   serializedVersion: 2
   m_Radius: 1.5
+--- !u!114 &8983185782498592965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139505906522811173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecb7ebfc841f59347ae932f56b9da5f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerUpSpeed: 5
+  minX: -13
+  maxX: -1
+  posY: 4
+  posYDeath: -4

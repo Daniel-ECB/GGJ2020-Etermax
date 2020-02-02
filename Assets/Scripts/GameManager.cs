@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour {
     [Space]
     [SerializeField] private Animator animator = default;
 
+    private enum State { MainMenu, Credits, InGame, EndGame }
+    private State state = State.MainMenu;
+
     public Action onStartGame;
     public Action onGameOver;
 
@@ -38,27 +41,38 @@ public class GameManager : MonoBehaviour {
     private void Awake() {
         instance = this;
 
-        return;
+        buttonPlay.onClick.AddListener(OnClickPlay);
         buttonCredits.onClick.AddListener(OnClickCredits);
         buttonBack.onClick.AddListener(OnClickBack);
-
         buttonRestart.onClick.AddListener(OnClickRestart);
     }
 
     private void OnClickPlay() {
+        if (state != State.MainMenu) return;
+        state = State.InGame;
+
         onStartGame?.Invoke();
         animator.SetTrigger(CONST_PLAY);
     }
 
     private void OnClickCredits() {
+        if (state != State.MainMenu) return;
+        state = State.Credits;
+
         animator.SetTrigger(CONST_CREDITS);
     }
 
     private void OnClickBack() {
+        if (state != State.Credits) return;
+        state = State.MainMenu;
+
         animator.SetTrigger(CONST_BACK);
     }
 
     private void OnClickRestart() {
+        if (state != State.MainMenu) return;
+        state = State.MainMenu;
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

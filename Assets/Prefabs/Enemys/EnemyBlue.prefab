@@ -94,6 +94,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8371003ab5af14a4fb2502c49bcd120d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minDelay: 0
+  maxDelay: 0
   bulletsPerSecond: 10
   speed: 3
   moveUp: 1

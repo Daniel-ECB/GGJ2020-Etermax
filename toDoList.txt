@@ -1,0 +1,2 @@
+-cuando el escudo llega a healt 0 no se tiene que poder recuperar vida con clickearlo
+-

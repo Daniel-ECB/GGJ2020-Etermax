@@ -116,7 +116,7 @@ public class ShieldUnit : MonoBehaviour, IAttackable {
     /// <summary>
     /// Deactivates the Super Shield
     /// </summary>
-    private void DeactivateSuperShield() {
+    public void DeactivateSuperShield() {
         superShieldObject.SetActive(false);
         hasSuperShield = false;
     }

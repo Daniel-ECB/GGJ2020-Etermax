@@ -21,10 +21,6 @@ public class HealthBar : MonoBehaviour
     {
         currentHits -= _amount;
         transform.localScale = new Vector3(currentHits / maxHits, 1.0f, 1.0f);
-        if (currentHits <= 0)
-        {
-            SoundManager.instance.OnGameOver();
-        }
     }
 
     /// <summary>

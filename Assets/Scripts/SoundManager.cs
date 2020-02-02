@@ -10,6 +10,7 @@ public class SoundManager : MonoBehaviour {
 
     private int indexClip = 0;
     private int indexFX = 0;
+    private bool isGameOver;
 
     public static SoundManager instance;
 
@@ -21,16 +22,20 @@ public class SoundManager : MonoBehaviour {
         }
     }
 
+    private void Start() {
+        GameManager.instance.onGameOver += OnGameOver;
+    }
+
     void Update() {
         PlayBackgroundMusic();
     }
 
     private void PlayBackgroundMusic() {
-        if (clipsBackgroundMusic.Length == 0) return;
+        if (clipsBackgroundMusic.Length == 0 || isGameOver) return;
 
         if (!audioSourceBackground.isPlaying) {
             Debug.Log("Clip Index: " + indexClip);
-            if (indexClip + 1 < clipsBackgroundMusic.Length) {
+            if (indexClip + 1 < clipsBackgroundMusic.Length -2) {
                 indexClip++;
             } else {
                 indexClip = 1;
@@ -60,16 +65,14 @@ public class SoundManager : MonoBehaviour {
         audioSource.Play();
     }
 
-    public void OnGameOver() {
-        indexFX = 0;
-        audioSourceBackground.clip = clipsBackgroundMusic[2];
-        audioSourceBackground.loop = false;
-        audioSourceBackground.Play();
-    }
-
-    public void OnWin() {
-        indexFX = 0;
-        audioSourceBackground.clip = clipsBackgroundMusic[3];
+    public void OnGameOver(bool win) {
+        isGameOver = true;
+        indexClip = 0;
+        if (win) {
+            audioSourceBackground.clip = clipsBackgroundMusic[3];
+        } else {
+            audioSourceBackground.clip = clipsBackgroundMusic[2];
+        }
         audioSourceBackground.loop = false;
         audioSourceBackground.Play();
     }

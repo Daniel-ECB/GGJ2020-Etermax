@@ -848,12 +848,6 @@ PrefabInstance:
       propertyPath: delayPowerUp
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 6052687973202885248, guid: a972469673b77ff42812e7488ecc0ae4,
-        type: 3}
-      propertyPath: prefabPowerUp
-      value: 
-      objectReference: {fileID: 2139505906522811173, guid: 829f5c0f0bda2b44b8e6bbdc7c44aacb,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a972469673b77ff42812e7488ecc0ae4, type: 3}
 --- !u!1001 &3962918311959112378
@@ -863,6 +857,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4769797778705902231, guid: 91e3edb925f83f2418b5fe8063dbab17,
+        type: 3}
+      propertyPath: healAmount
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769797778705902231, guid: 91e3edb925f83f2418b5fe8063dbab17,
+        type: 3}
+      propertyPath: superShieldLifeTime
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7747389841449174183, guid: 91e3edb925f83f2418b5fe8063dbab17,
         type: 3}
       propertyPath: m_LocalPosition.x

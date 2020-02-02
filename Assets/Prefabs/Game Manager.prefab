@@ -175,10 +175,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 269ee549c9f4d844686aa4bf0984ecba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  delayPowerUp: 5
   titleWin: YOU WIN
   commentWin: You have a jackhammer in your index finger
   titleLose: GAME OVER
   commentLose: COME ON! Slow fingers
+  prefabPowerUp: {fileID: 2139505906522811173, guid: 829f5c0f0bda2b44b8e6bbdc7c44aacb,
+    type: 3}
   buttonPlay: {fileID: 0}
   buttonCredits: {fileID: 0}
   buttonBack: {fileID: 0}

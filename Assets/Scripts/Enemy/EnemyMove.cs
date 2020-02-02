@@ -14,6 +14,7 @@ public class EnemyMove : MonoBehaviour, IAttackable {
 
     [Header("Assets")]
     public Bullet prefabBullet = default;
+    public SuperBullet prefabSuperBullet = default;
     public AudioClip clipShoot = default;
 
     [Header("References")]
@@ -35,6 +36,7 @@ public class EnemyMove : MonoBehaviour, IAttackable {
         delay = 1.0f / bulletsPerSecond;
         GameManager.instance.onStartGame += OnStartGame;
         GameManager.instance.onGameOver += OnGameOver;
+        GameManager.instance.onPowerUp += OnPowerUp;
     }
 
     void Update() {
@@ -72,8 +74,15 @@ public class EnemyMove : MonoBehaviour, IAttackable {
         active = true;
     }
 
-    private void OnGameOver() {
+    private void OnGameOver(bool win) {
         active = false;
+    }
+
+    private void OnPowerUp() {
+        SuperBullet superBullet = Instantiate(prefabSuperBullet);
+        superBullet.transform.position = spawnBullet.position;
+        superBullet.transform.rotation = spawnBullet.rotation;
+        SoundManager.instance.PlayOneShot(clipShoot);
     }
 
     private void ShootBullet() {
@@ -116,5 +125,8 @@ public class EnemyMove : MonoBehaviour, IAttackable {
         }
     }
 
-    public void Kill() => gameObject.SetActive(false);
+    public void Kill() {
+        ShieldManager.Instance.audioSource.Play();
+        gameObject.SetActive(false);
+    }
 }

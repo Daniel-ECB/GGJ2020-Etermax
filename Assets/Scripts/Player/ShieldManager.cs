@@ -10,7 +10,13 @@ public class ShieldManager : MonoBehaviour {
     public float superShieldLifeTime = 10f;
 
     [Header("References")]
-    [Tooltip("Amount of health a shield will recover with a click.")] public int healAmount = 10;
+    public int healAmount = 10;
+    public AudioSource audioSource = default;
+    [Space]
+
+
+
+
     public bool canHeal = true;
 
     public bool activateSuperShield = false;
@@ -52,7 +58,7 @@ public class ShieldManager : MonoBehaviour {
     /// <param name="_shieldUnit">The ShieldUnit to be removed.</param>
     public void RemoveShield(ShieldUnit _shieldUnit) {
         shields.Remove(_shieldUnit);
-
+        audioSource.Play();
         if (shields.Count <= 0) {
             GameManager.instance.GameOver(false);
         }

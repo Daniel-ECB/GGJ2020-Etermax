@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2139505906522811171}
   - component: {fileID: 1245791963659370619}
   - component: {fileID: 8983185782498592965}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RecoverShields_PowerUP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0.04, y: 0.05}
   serializedVersion: 2
-  m_Radius: 1.5
+  m_Radius: 1.875
 --- !u!114 &8983185782498592965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerUpSpeed: 5
-  minX: -13
-  maxX: -1
-  posY: 4
-  posYDeath: -4
+  minX: -6
+  maxX: 2
+  posY: 6
+  posYDeath: -6

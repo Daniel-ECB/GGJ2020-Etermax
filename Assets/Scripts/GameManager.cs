@@ -35,13 +35,14 @@ public class GameManager : MonoBehaviour {
     private float nextPowerUp;
 
     public Action onStartGame;
-    public Action onGameOver;
+    public Action<bool> onGameOver;
 
     public Action onPowerUp;
 
     private readonly int CONST_PLAY = Animator.StringToHash("Play");
     private readonly int CONST_CREDITS = Animator.StringToHash("Credits");
     private readonly int CONST_BACK = Animator.StringToHash("Back");
+    private readonly int CONST_GAMEOVER = Animator.StringToHash("GameOver");
 
     public static GameManager instance;
 
@@ -87,7 +88,7 @@ public class GameManager : MonoBehaviour {
     }
 
     private void OnClickRestart() {
-        if (state != State.MainMenu) return;
+        if (state != State.EndGame) return;
         state = State.MainMenu;
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -96,5 +97,8 @@ public class GameManager : MonoBehaviour {
     public void GameOver(bool win) {
         textResult.text = win ? titleWin : titleLose;
         textComment.text = win ? commentWin : commentLose;
+        state = State.EndGame;
+        animator.SetTrigger(CONST_GAMEOVER);
+        onGameOver?.Invoke(win);
     }
 }

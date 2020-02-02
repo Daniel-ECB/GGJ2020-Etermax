@@ -19,12 +19,14 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private Button buttonCredits = default;
     [SerializeField] private Button buttonBack = default;
     [Space]
-    [SerializeField] private GameObject endMenu = default;
     [SerializeField] private TextMeshProUGUI textResult = default;
     [SerializeField] private TextMeshProUGUI textComment = default;
     [SerializeField] private Button buttonRestart = default;
     [Space]
     [SerializeField] private Animator animator = default;
+
+    private enum State { MainMenu, Credits, InGame, EndMenu }
+    private State state = State.MainMenu;
 
     public Action onStartGame;
     public Action onGameOver;
@@ -32,6 +34,7 @@ public class GameManager : MonoBehaviour {
     private readonly int CONST_PLAY = Animator.StringToHash("Play");
     private readonly int CONST_CREDITS = Animator.StringToHash("Credits");
     private readonly int CONST_BACK = Animator.StringToHash("Back");
+    private readonly int CONST_GAMEOVER = Animator.StringToHash("GameOver");
 
     public static GameManager instance;
 
@@ -46,25 +49,38 @@ public class GameManager : MonoBehaviour {
     }
 
     private void OnClickPlay() {
+        if (state != State.MainMenu) return;
+        state = State.InGame;
+
         onStartGame?.Invoke();
         animator.SetTrigger(CONST_PLAY);
     }
 
     private void OnClickCredits() {
+        if (state != State.MainMenu) return;
+        state = State.Credits;
+
         animator.SetTrigger(CONST_CREDITS);
     }
 
     private void OnClickBack() {
+        if (state != State.Credits) return;
+        state = State.MainMenu;
+
         animator.SetTrigger(CONST_BACK);
     }
 
     private void OnClickRestart() {
+        if (state != State.EndMenu) return;
+        state = State.MainMenu;
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void GameOver(bool win) {
+        onGameOver?.Invoke();
+        animator.SetTrigger(CONST_GAMEOVER);
         textResult.text = win ? titleWin : titleLose;
         textComment.text = win ? commentWin : commentLose;
-        endMenu.SetActive(true);
     }
 }

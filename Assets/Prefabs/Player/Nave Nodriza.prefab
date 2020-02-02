@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d702ad37b611fc84b8f312b139487f46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healAmount: 10
+  healAmount: 3
   canHeal: 1
   activateSuperShield: 0
   shields:

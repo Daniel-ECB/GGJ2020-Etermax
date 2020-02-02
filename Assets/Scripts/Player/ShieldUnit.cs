@@ -116,6 +116,8 @@ public class ShieldUnit : MonoBehaviour, IAttackable
     private void OnMouseDown()
     {
         //Debug.Log("The player has clicked on " + name);
+        if (isDeath)
+            return;
 
         if (ShieldManager.Instance.canHeal)
         {

@@ -28,15 +28,11 @@ public class SoundManager : MonoBehaviour {
     private void PlayBackgroundMusic() {
         if (clipsBackgroundMusic.Length == 0) return;
 
-        if (!audioSourceBackground.isPlaying)
-        {
+        if (!audioSourceBackground.isPlaying) {
             Debug.Log("Clip Index: " + indexClip);
-            if (indexClip + 1 < clipsBackgroundMusic.Length)
-            {
+            if (indexClip + 1 < clipsBackgroundMusic.Length) {
                 indexClip++;
-            }
-            else
-            {
+            } else {
                 indexClip = 1;
             }
 
@@ -46,6 +42,7 @@ public class SoundManager : MonoBehaviour {
     }
 
     public void PlayOneShot(AudioClip clip) {
+        if (clip == null) return;
 
         if (indexFX + 1 < audioSourceFxs.Length) {
             indexFX++;
@@ -53,16 +50,14 @@ public class SoundManager : MonoBehaviour {
             indexFX = 0;
         }
 
-        if (IsPlayingSound(audioSourceFxs[indexFX])) {
-            StopSound(audioSourceFxs[indexFX]);
+        AudioSource audioSource = audioSourceFxs[indexFX];
+
+        if (audioSource.isPlaying) {
+            audioSource.Stop();
         }
-        audioSourceFxs[indexFX].PlayOneShot(clip);
-    }
 
-
-    public void StopSound(AudioSource audioSrc) {
-        if (audioSrc.isPlaying == true)
-            audioSrc.Stop();
+        audioSource.clip = clip;
+        audioSource.Play();
     }
 
     public void OnGameOver() {
@@ -72,8 +67,7 @@ public class SoundManager : MonoBehaviour {
         audioSourceBackground.Play();
     }
 
-    public void OnWin()
-    {
+    public void OnWin() {
         indexFX = 0;
         audioSourceBackground.clip = clipsBackgroundMusic[3];
         audioSourceBackground.loop = false;
@@ -81,6 +75,6 @@ public class SoundManager : MonoBehaviour {
     }
 
     public bool IsPlayingSound(AudioSource audioSrc) {
-        return (audioSrc.isPlaying == true);
+        return audioSrc.isPlaying;
     }
 }

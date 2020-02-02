@@ -43,7 +43,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.28
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -179,11 +179,9 @@ MonoBehaviour:
   commentWin: You have a jackhammer in your index finger
   titleLose: GAME OVER
   commentLose: COME ON! Slow fingers
-  mainMenu: {fileID: 0}
   buttonPlay: {fileID: 0}
   buttonCredits: {fileID: 0}
   buttonBack: {fileID: 0}
-  endMenu: {fileID: 0}
   textResult: {fileID: 0}
   textComment: {fileID: 0}
   buttonRestart: {fileID: 0}
@@ -200,7 +198,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9648e90cab21c34580328aa91c95c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clipsBackgroundMusic: []
+  clipsBackgroundMusic:
+  - {fileID: 8300000, guid: bdce8ace81aeb004c914e4a1ad230b52, type: 3}
+  - {fileID: 8300000, guid: 3c7afff8fa185d641b29a1f41cafd009, type: 3}
+  - {fileID: 8300000, guid: 219beee2c587fe348b28f6883166ebd2, type: 3}
+  - {fileID: 8300000, guid: 777fe9b85de43b24f85917f4108bc2af, type: 3}
   audioSourceBackground: {fileID: 4047303896550283381}
   audioSourceFxs:
   - {fileID: 103224109951376894}
@@ -249,7 +251,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.28
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -376,7 +378,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.28
   m_Pitch: 1
   Loop: 0
   Mute: 0

@@ -31,7 +31,7 @@ public class EnemyMove : MonoBehaviour {
 
     void Start() {
         pooling = new Pooling<Bullet>(20, prefabBullet, new GameObject("PoolObjects Bullet").transform, false);
-        delay = 1 / bulletsPerSecond;
+        delay = 1.0f / bulletsPerSecond;
         GameManager.instance.onStartGame += OnStartGame;
         GameManager.instance.onGameOver += OnGameOver;
     }

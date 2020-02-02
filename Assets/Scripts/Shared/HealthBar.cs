@@ -22,4 +22,14 @@ public class HealthBar : MonoBehaviour
         currentHits -= _amount;
         transform.localScale = new Vector3(currentHits / maxHits, 1.0f, 1.0f);
     }
+
+    /// <summary>
+    /// Sets the content of the HealthBar.
+    /// </summary>
+    /// <param name="_amount">Amount that the content of the bar will be set to.</param>
+    public void SetHealthBarContent(float _amount)
+    {
+        currentHits = _amount;
+        transform.localScale = new Vector3(currentHits / maxHits, 1.0f, 1.0f);
+    }
 }

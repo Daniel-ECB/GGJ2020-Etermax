@@ -4,16 +4,39 @@ using UnityEngine;
 
 public class ShieldManager : MonoBehaviour
 {
+    #region Fields
+
     private static ShieldManager instance;
 
+    [Tooltip("Amount of health a shield will recover with a click.")] public int healAmount = 10;
+    public bool canHeal = true;
+
+    public bool activateSuperShield = false;
+    public const float SUPER_SHIELD_LIFETIME = 10f;
+
+    [Header("References")]
     public List<ShieldUnit> shields;
 
+    #endregion
+
+    #region Properties
+
+    /// <summary>
+    /// Gets and (private) sets the ShieldManager instance.
+    /// </summary>
     public static ShieldManager Instance
     {
         get { return instance; }
         private set { instance = value; }
     }
 
+    #endregion
+
+    #region Methods
+
+    /// <summary>
+    /// Awake is called when the script is first loaded.
+    /// </summary>
     void Awake()
     {
         // Simple Singleton
@@ -36,4 +59,6 @@ public class ShieldManager : MonoBehaviour
             Debug.Log("All shields have been destroyed");
         }
     }
+
+    #endregion
 }

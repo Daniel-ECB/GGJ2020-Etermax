@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyMove : MonoBehaviour {
+public class EnemyMove : MonoBehaviour
+{
 
     [Header("Settings")]
+    public float minDelay, maxDelay;
     public int bulletsPerSecond = default;
     public float speed = 100f;
     public bool moveUp = true;
@@ -16,37 +18,64 @@ public class EnemyMove : MonoBehaviour {
     public Bullet prefabBullet = default;
 
     private float delay;
-    private float startTime;
     private float nextShoot;
-    public GameObject[] shootPoints;
     public static Pooling<Bullet> pooling;
-    private IEnumerator coroutine;
 
-    void Start() {
+    private enum State { Idle, Moving, Shooting };
+    private State state = State.Idle;
+    private float startPosY;
+    private float t;
+    private int indexTarget;
+
+    void Start()
+    {
         pooling = new Pooling<Bullet>(20, prefabBullet, new GameObject("PoolObjects Bullet").transform, false);
         delay = 1 / bulletsPerSecond;
-        startTime=Time.time;
-        
+
     }
 
-    void Update() {
-        //MoveUpDown();
-        float timeElapse=3f;
-
-
-        if(Time.time>startTime+timeElapse)
+    void Update()
+    {
+        switch (state)
         {
-             MoveRandom();
-        
-        startTime=Time.time;
+            case State.Idle:
+                {
+                    SetTarget();
+                }
+                break;
+            case State.Moving:
+                {
+                    t += Time.deltaTime * speed;
+                    if (t > 1)
+                    {
+                        state = State.Shooting;
+                        StartCoroutine(SetTargetC());
+                        t = 1;
+                        transform.position = new Vector2(transform.position.x, ShieldManager.Instance.shields[indexTarget].transform.position.y);
+                    }
+                    else
+                    {
+                        transform.position = new Vector2(transform.position.x, Mathf.Lerp(startPosY, ShieldManager.Instance.shields[indexTarget].transform.position.y, t));
+                    }
+                }
+                break;
+            case State.Shooting:
+                {
+                    ShootBullet();
+                }
+                break;
+            default:
+                {
+                    Debug.LogError("Estado de la nave no reconocido!");
+                }
+                break;
         }
-        ShootBullet();
-        
-       
     }
 
-    private void ShootBullet() {
-        if (nextShoot <= Time.time) {
+    private void ShootBullet()
+    {
+        if (Time.time >= nextShoot)
+        {
             nextShoot = Time.time + delay;
             Bullet bullet = pooling.Get();
             bullet.transform.position = spawnBullet.position;
@@ -54,29 +83,26 @@ public class EnemyMove : MonoBehaviour {
         }
     }
 
+    private IEnumerator SetTargetC()
+    {
+        yield return new WaitForSeconds(Random.Range(minDelay, maxDelay));
+        SetTarget();
+    }
 
-            private void MoveRandom()
+    private void SetTarget()
+    {
+        int newIndex = Random.Range(0, ShieldManager.Instance.shields.Count);
+        if (newIndex == indexTarget)
+        {
+            newIndex++;
+            if (newIndex >= ShieldManager.Instance.shields.Count)
             {
-                   int pointGame=Random.Range(0,shootPoints.Length);
-
-            
-                            
-                              
-                        
-                                                 
-                            transform.position=Vector2.MoveTowards(transform.position,shootPoints[pointGame].transform.position,Time.deltaTime * speed);
-                            
-                    
-                    
-                    //transform.Translate(new Vector2(0,shootPoints[pointGame].transform.position.y)* Time.deltaTime *speed, Space.Self);
-
+                newIndex = 0;
             }
-
-           
-
-
-
-
-
-
+        }
+        startPosY = transform.position.y;
+        indexTarget = newIndex;
+        t = 0;
+        state = State.Moving;
+    }
 }

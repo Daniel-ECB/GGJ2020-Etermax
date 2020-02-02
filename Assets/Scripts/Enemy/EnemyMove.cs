@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyMove : MonoBehaviour
-{
+public class EnemyMove : MonoBehaviour {
 
     [Header("Settings")]
-    public float minDelay, maxDelay;
+    public float minDelay;
+    public float maxDelay;
     public int bulletsPerSecond = default;
     public float speed = 100f;
     public bool moveUp = true;
@@ -26,56 +26,51 @@ public class EnemyMove : MonoBehaviour
     private float startPosY;
     private float t;
     private int indexTarget;
+    private bool initialized;
 
-    void Start()
-    {
+    void Start() {
         pooling = new Pooling<Bullet>(20, prefabBullet, new GameObject("PoolObjects Bullet").transform, false);
         delay = 1 / bulletsPerSecond;
-
+        GameManager.instance.onStartGame += OnStartGame;
     }
 
-    void Update()
-    {
-        switch (state)
-        {
-            case State.Idle:
-                {
-                    SetTarget();
+    void Update() {
+        if (!initialized) return;
+
+        switch (state) {
+            case State.Idle: {
+                SetTarget();
+            }
+            break;
+            case State.Moving: {
+                t += Time.deltaTime * speed;
+                if (t > 1) {
+                    state = State.Shooting;
+                    StartCoroutine(SetTargetC());
+                    t = 1;
+                    transform.position = new Vector2(transform.position.x, ShieldManager.Instance.shields[indexTarget].transform.position.y);
+                } else {
+                    transform.position = new Vector2(transform.position.x, Mathf.Lerp(startPosY, ShieldManager.Instance.shields[indexTarget].transform.position.y, t));
                 }
-                break;
-            case State.Moving:
-                {
-                    t += Time.deltaTime * speed;
-                    if (t > 1)
-                    {
-                        state = State.Shooting;
-                        StartCoroutine(SetTargetC());
-                        t = 1;
-                        transform.position = new Vector2(transform.position.x, ShieldManager.Instance.shields[indexTarget].transform.position.y);
-                    }
-                    else
-                    {
-                        transform.position = new Vector2(transform.position.x, Mathf.Lerp(startPosY, ShieldManager.Instance.shields[indexTarget].transform.position.y, t));
-                    }
-                }
-                break;
-            case State.Shooting:
-                {
-                    ShootBullet();
-                }
-                break;
-            default:
-                {
-                    Debug.LogError("Estado de la nave no reconocido!");
-                }
-                break;
+            }
+            break;
+            case State.Shooting: {
+                ShootBullet();
+            }
+            break;
+            default: {
+                Debug.LogError("Estado de la nave no reconocido!");
+            }
+            break;
         }
     }
 
-    private void ShootBullet()
-    {
-        if (Time.time >= nextShoot)
-        {
+    private void OnStartGame() {
+        initialized = true;
+    }
+
+    private void ShootBullet() {
+        if (Time.time >= nextShoot) {
             nextShoot = Time.time + delay;
             Bullet bullet = pooling.Get();
             bullet.transform.position = spawnBullet.position;
@@ -83,20 +78,16 @@ public class EnemyMove : MonoBehaviour
         }
     }
 
-    private IEnumerator SetTargetC()
-    {
+    private IEnumerator SetTargetC() {
         yield return new WaitForSeconds(Random.Range(minDelay, maxDelay));
         SetTarget();
     }
 
-    private void SetTarget()
-    {
+    private void SetTarget() {
         int newIndex = Random.Range(0, ShieldManager.Instance.shields.Count);
-        if (newIndex == indexTarget)
-        {
+        if (newIndex == indexTarget) {
             newIndex++;
-            if (newIndex >= ShieldManager.Instance.shields.Count)
-            {
+            if (newIndex >= ShieldManager.Instance.shields.Count) {
                 newIndex = 0;
             }
         }

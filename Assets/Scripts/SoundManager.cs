@@ -1,43 +1,38 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class SoundManager : MonoBehaviour
-{
+public class SoundManager : MonoBehaviour {
     [Header("Assets")]
     public AudioClip[] clipsBackgroundMusic = default;
 
     [Header("References")]
     public AudioSource audioSourceBackground = default;
-    public AudioSource[] audioSourceFXs = default;
+    public AudioSource[] audioSourceFxs = default;
 
     private int indexClip = 0;
     private int indexFX = 0;
 
     public static SoundManager instance;
 
-    private void Awake()
-    {
+    private void Awake() {
         instance = this;
-        audioSourceBackground.clip = clipsBackgroundMusic[0];
-        audioSourceBackground.Play();
+        if (clipsBackgroundMusic.Length > 0) {
+            audioSourceBackground.clip = clipsBackgroundMusic[0];
+            audioSourceBackground.Play();
+        }
     }
 
-    void Update()
-    {
+    void Update() {
         PlayBackgroundMusic();
     }
 
-    private void PlayBackgroundMusic()
-    {
-        if (!audioSourceBackground.isPlaying)
-        {
+    private void PlayBackgroundMusic() {
+        if (clipsBackgroundMusic.Length == 0) return;
+
+        if (!audioSourceBackground.isPlaying) {
             Debug.Log("Clip Index: " + indexClip);
-            if (indexClip + 1 < clipsBackgroundMusic.Length)
-            {
+            if (indexClip + 1 < clipsBackgroundMusic.Length) {
                 indexClip++;
-            } else
-            {
+            } else {
                 indexClip = 1;
             }
 
@@ -46,39 +41,31 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public void PlayOneShot(AudioClip clip)
-    {
+    public void PlayOneShot(AudioClip clip) {
 
-        if (indexFX + 1 < audioSourceFXs.Length)
-        {
+        if (indexFX + 1 < audioSourceFxs.Length) {
             indexFX++;
-        }
-        else
-        {
+        } else {
             indexFX = 0;
         }
 
-        if (IsPlayingSound(audioSourceFXs[indexFX]))
-        {
-            StopSound(audioSourceFXs[indexFX]); 
+        if (IsPlayingSound(audioSourceFxs[indexFX])) {
+            StopSound(audioSourceFxs[indexFX]);
         }
-        audioSourceFXs[indexFX].PlayOneShot(clip);
+        audioSourceFxs[indexFX].PlayOneShot(clip);
     }
 
-   
-    public void StopSound(AudioSource audioSrc)
-    {
+
+    public void StopSound(AudioSource audioSrc) {
         if (audioSrc.isPlaying == true)
             audioSrc.Stop();
     }
 
-    public void OnGameOver()
-    { 
-    
+    public void OnGameOver() {
+
     }
 
-    public bool IsPlayingSound(AudioSource audioSrc)
-    {
+    public bool IsPlayingSound(AudioSource audioSrc) {
         return (audioSrc.isPlaying == true);
     }
 }

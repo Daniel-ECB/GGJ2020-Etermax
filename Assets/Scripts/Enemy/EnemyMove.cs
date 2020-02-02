@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
 public class EnemyMove : MonoBehaviour {
 
@@ -11,11 +11,12 @@ public class EnemyMove : MonoBehaviour {
     public bool moveUp = true;
     public bool moveDown = true;
 
-    [Header("References")]
-    public Transform spawnBullet = default;
-
     [Header("Assets")]
     public Bullet prefabBullet = default;
+    public AudioClip clipShoot = default;
+
+    [Header("References")]
+    public Transform spawnBullet = default;
 
     private float delay;
     private float nextShoot;
@@ -26,16 +27,17 @@ public class EnemyMove : MonoBehaviour {
     private float startPosY;
     private float t;
     private int indexTarget;
-    private bool initialized;
+    private bool active;
 
     void Start() {
         pooling = new Pooling<Bullet>(20, prefabBullet, new GameObject("PoolObjects Bullet").transform, false);
         delay = 1 / bulletsPerSecond;
         GameManager.instance.onStartGame += OnStartGame;
+        GameManager.instance.onGameOver += OnGameOver;
     }
 
     void Update() {
-        if (!initialized) return;
+        if (!active) return;
 
         switch (state) {
             case State.Idle: {
@@ -66,7 +68,11 @@ public class EnemyMove : MonoBehaviour {
     }
 
     private void OnStartGame() {
-        initialized = true;
+        active = true;
+    }
+
+    private void OnGameOver() {
+        active = false;
     }
 
     private void ShootBullet() {
@@ -75,6 +81,7 @@ public class EnemyMove : MonoBehaviour {
             Bullet bullet = pooling.Get();
             bullet.transform.position = spawnBullet.position;
             bullet.transform.rotation = spawnBullet.rotation;
+            SoundManager.instance.PlayOneShot(clipShoot);
         }
     }
 
@@ -84,6 +91,8 @@ public class EnemyMove : MonoBehaviour {
     }
 
     private void SetTarget() {
+        if (ShieldManager.Instance.shields.Count == 0) active = false;
+
         int newIndex = Random.Range(0, ShieldManager.Instance.shields.Count);
         if (newIndex == indexTarget) {
             newIndex++;

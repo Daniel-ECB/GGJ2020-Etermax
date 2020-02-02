@@ -28,11 +28,15 @@ public class SoundManager : MonoBehaviour {
     private void PlayBackgroundMusic() {
         if (clipsBackgroundMusic.Length == 0) return;
 
-        if (!audioSourceBackground.isPlaying) {
+        if (!audioSourceBackground.isPlaying)
+        {
             Debug.Log("Clip Index: " + indexClip);
-            if (indexClip + 1 < clipsBackgroundMusic.Length) {
+            if (indexClip + 1 < clipsBackgroundMusic.Length)
+            {
                 indexClip++;
-            } else {
+            }
+            else
+            {
                 indexClip = 1;
             }
 
@@ -62,7 +66,18 @@ public class SoundManager : MonoBehaviour {
     }
 
     public void OnGameOver() {
+        indexFX = 0;
+        audioSourceBackground.clip = clipsBackgroundMusic[2];
+        audioSourceBackground.loop = false;
+        audioSourceBackground.Play();
+    }
 
+    public void OnWin()
+    {
+        indexFX = 0;
+        audioSourceBackground.clip = clipsBackgroundMusic[3];
+        audioSourceBackground.loop = false;
+        audioSourceBackground.Play();
     }
 
     public bool IsPlayingSound(AudioSource audioSrc) {

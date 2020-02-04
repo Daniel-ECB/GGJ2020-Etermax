@@ -857,16 +857,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4769797778705902231, guid: 91e3edb925f83f2418b5fe8063dbab17,
+    - target: {fileID: 7223382221748622970, guid: 91e3edb925f83f2418b5fe8063dbab17,
         type: 3}
-      propertyPath: healAmount
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 4769797778705902231, guid: 91e3edb925f83f2418b5fe8063dbab17,
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: bb04c8ea61d1bdb42a3a3ffd9c29cc90,
         type: 3}
-      propertyPath: superShieldLifeTime
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 7747389841449174183, guid: 91e3edb925f83f2418b5fe8063dbab17,
         type: 3}
       propertyPath: m_LocalPosition.x
